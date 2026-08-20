@@ -1,9 +1,22 @@
+import { useState } from "react"
+
 const Header = ({course}) => {
   return (
     <div>
       <h1>
         {course.name}
       </h1>
+    </div>
+  )
+}
+
+
+
+const TotalExercises = ({parts}) =>{
+   const total = parts.reduce((sum, part) => sum + part.exercises , 0)
+  return (
+    <div>
+     <p><b>total of {total} exercises</b></p>
     </div>
   )
 }
@@ -21,6 +34,7 @@ const Course = ({course}) => {
     <div>
       <Header course={course} />
       <Content parts={course.parts}/>
+      <TotalExercises parts={course.parts} />
     </div>
   )
 }
