@@ -1,4 +1,5 @@
 import { useState } from "react"
+import Course  from './components/Course'
 
 const Header = ({course}) => {
   return (
@@ -29,15 +30,7 @@ const Content = ({parts}) => {
   )
 }
 
-const Course = ({course}) => {
-  return (
-    <div>
-      <Header course={course} />
-      <Content parts={course.parts}/>
-      <TotalExercises parts={course.parts} />
-    </div>
-  )
-}
+
 
 
 const App = () => {
