@@ -11,7 +11,7 @@ const Header = ({course}) => {
 }
 
 
-
+/* exercise 2.2 and 2.3 */
 const TotalExercises = ({parts}) =>{
    const total = parts.reduce((sum, part) => sum + part.exercises , 0)
   return (
