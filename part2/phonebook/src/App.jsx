@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import PersonForm from './components/personform'
 import Numbers from './components/number'
 import Filter from './components/searchFilter'
+import Notification from './components/notification'
 import PersonsServices from './services/persons'
 
 
@@ -14,6 +15,10 @@ const App = () => {
   const [newName, setNewName] = useState('')
 
   const [newID, setNewID] = useState(5)
+
+  const [errorMessage, setErrorMessage] = useState(null)
+
+  const [successMessage, setSuccessMessage] = useState(null)
 
 
   useEffect(() => {
@@ -64,65 +69,81 @@ const App = () => {
               person.id === personExists.id ? returnedPerson : person
             )
           )
+        }).catch(error => {
+          setErrorMessage(
+            `Information on ${personExists.name} has already been removed from the server`
+          )
+          setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
         })
       }
 
       return
 
-  }
+    }
 
 
 
-  setNewID(newID + 1)
+    setNewID(newID + 1)
 
-  const newPersonObject = {
-    name: newName,
-    number: numbers,
-    id: newID
-  }
+    const newPersonObject = {
+      name: newName,
+      number: numbers,
+      id: newID
+    }
 
-  console.log(newPersonObject)
-  PersonsServices.create(newPersonObject).then(returnedPerson => {
-    setPersons(persons.concat(returnedPerson))
-  })
-  /**setPersons(persons.concat(newPersonObject))**/
-  setNewName('')
-  setNumbers('')
-}
-
-const deletePerson = (id, name) => {
-  if (window.confirm(`Delete ${name}?`)) {
-    PersonsServices.remove(id).then(() => {
-      setPersons(persons.filter(person => person.id !== id))
+    console.log(newPersonObject)
+    PersonsServices.create(newPersonObject).then(returnedPerson => {
+      setPersons(persons.concat(returnedPerson))
+      setSuccessMessage(`Added ${newPersonObject.name}`)
+      setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
     })
+    setNewName('')
+    setNumbers('')
   }
-}
 
-const personToShow = persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()))
+  const deletePerson = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      PersonsServices.remove(id).then(() => {
+        setPersons(persons.filter(person => person.id !== id))
+      })
+      setSuccessMessage(`${name} has been deleted from the server`)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    }
+  }
 
-return (
-  <div>
-    <h2>Phonebook</h2>
-    <Filter
-      search={search}
-      handleSetSearch={handleSetSearch}
-    />
-    <h2>
-      add a new
-    </h2>
-    <PersonForm
-      onSubmit={createSetPerson}
-      newName={newName}
-      onNameChange={createNewName}
-      number={numbers}
-      onNumberChange={createNewNumber}
-      
-    />
-    <Numbers personToShow={personToShow}
-      deletePerson={deletePerson}
-    />
-  </div>
-)
+  const personToShow = persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()))
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <Notification message={errorMessage} type="error"/>
+      <Notification message={successMessage} type="success" />
+      <Filter
+        search={search}
+        handleSetSearch={handleSetSearch}
+      />
+      <h2>
+        add a new
+      </h2>
+      <PersonForm
+        onSubmit={createSetPerson}
+        newName={newName}
+        onNameChange={createNewName}
+        number={numbers}
+        onNumberChange={createNewNumber}
+
+      />
+      <Numbers personToShow={personToShow}
+        deletePerson={deletePerson}
+      />
+    </div>
+  )
 }
 
 export default App

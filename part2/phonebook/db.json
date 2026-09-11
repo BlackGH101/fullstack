@@ -14,6 +14,21 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": "4"
+    },
+    {
+      "name": "Kofi Bobo",
+      "number": "2233222",
+      "id": "mz6vkY8ut3U"
+    },
+    {
+      "name": "Kofi Abalo",
+      "number": "023939393",
+      "id": "ttea8x3CAyM"
+    },
+    {
+      "name": "Boboski",
+      "number": "1234567654",
+      "id": "vVVlb8KkKf0"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
