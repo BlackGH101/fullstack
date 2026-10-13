@@ -6,13 +6,13 @@ const mongoose = require('mongoose')
 
 const password = process.argv[2]
 
-const url = `mongodb+srv://kofisponsor_db_user:${password}@cluster0.cxaa9jf.mongodb.net/phoneBook?appName=Cluster0`
+const url = `mongodb+srv://kofisponsor_db_user:${password}@cluster0.cxaa9jf.mongodb.net`
 
 mongoose.set('strictQuery', false)
 
 const phoneSchema = new mongoose.Schema({
-    userName: String,
-    phoneNumber: String,
+    name: String,
+    number: String,
 })
 
 const phoneBook = mongoose.model('phoneBook', phoneSchema)
@@ -27,7 +27,7 @@ if (process.argv.length === 3) {
         .then(result => {
             console.log('PhoneBook')
             result.forEach(phone => {
-                console.log(`${phone.userName}, ${phone.phoneNumber}`)
+                console.log(`${phone.name}, ${phone.number}`)
             })
 
             mongoose.connection.close()
@@ -39,22 +39,22 @@ if (process.argv.length === 3) {
 
 } else if (process.argv.length === 5) {
 
-    const userName = process.argv[3]
-    const phoneNumber = process.argv[4]
+    const name = process.argv[3]
+    const number = process.argv[4]
 
     // Connect once
     mongoose.connect(url, { family: 4 })
         .then(() => {
 
             const phone = new phoneBook({
-                userName: userName,
-                phoneNumber: phoneNumber,
+                name: name,
+                number: number,
             })
 
             return phone.save()
         })
         .then(() => {
-            console.log(`Added ${userName} number ${phoneNumber} to phonebook`)
+            console.log(`Added ${name} number ${number} to phonebook`)
             mongoose.connection.close()
         })
         .catch(error => {

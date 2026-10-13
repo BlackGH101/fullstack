@@ -12,8 +12,14 @@
     "dev": "node --watch index.js"
   },
   "dependencies": {
+    "dotenv": "^18.0.5",
     "express": "^5.2.1",
     "mongoose": "^9.10.3",
     "morgan": "^1.12.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0"
   }
 }
